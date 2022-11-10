@@ -6,9 +6,9 @@ namespace Decorator.Examples
         static void Main()
         {
             // Create ConcreteComponent and two Decorators
-            ChristmasTree tree = new ChristmasTree();
-            ChristmasDecoration decor1 = new ChristmasDecoration();
-            Garland decor2 = new Garland();
+            ChristmasTree tree = new ChristmasTree(2);
+            ChristmasDecoration decor1 = new ChristmasDecoration("blue", "bulbs");
+            Garland decor2 = new Garland(2.25);
 
             // Link decorators
             decor1.SetComponent(tree);
@@ -29,9 +29,11 @@ namespace Decorator.Examples
     // "ChristmasTree"
     class ChristmasTree : Component
     {
+        public double height;     //in meter
+        public ChristmasTree(double h) { height = h;  }
         public override void Operation()
         {
-            Console.WriteLine("The christmas tree was installed.");
+            Console.WriteLine($"The {height}-meter christmas tree was installed.");
         }
     }
     // "Decorator"
@@ -56,25 +58,28 @@ namespace Decorator.Examples
     class ChristmasDecoration : Decorator
     {
         private string decoration;
+        public string color;
 
+        public ChristmasDecoration (string c, string d) { color= c; decoration = d; }
         public override void Operation()
         {
             base.Operation();
-            decoration = "Christmas tree decoration.";
-            Console.WriteLine($"Christmas tree was decorated with {decoration}");
+            Console.WriteLine($"Christmas tree was decorated with {color} {decoration}.");
         }
     }
 
     // "Garland" 
     class Garland : Decorator
     {
+        public double length;   //in meter
+        public Garland (double l) { length = l; }
         public override void Operation()
         {
             base.Operation();
-            AddedBehavior();
-            Console.WriteLine("Christmas tree was decorated with garland");
+            Console.WriteLine($"Christmas tree was decorated with a {length}-meter garland.");
+            Lighting();
         }
-        void AddedBehavior()
+        void Lighting ()
         {
             Console.WriteLine("Christmas tree lights up.");
         }
